@@ -18,17 +18,17 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                echo 'Building...'
-                gradle 'build'
-            }
-        }
-
         stage('Check') {
             steps {
                 echo 'Checking...'
                 gradle 'check'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building...'
+                gradle 'build'
             }
         }
     }
