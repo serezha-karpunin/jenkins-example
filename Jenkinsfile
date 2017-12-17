@@ -1,27 +1,40 @@
+def gradle(command) {
+    bat "gradlew ${command}"
+}
+
 pipeline {
     agent any
     stages{
-        stage('Build') {
+        stage('Clone') {
             steps {
-                echo 'Building...'
+                echo 'Cloning...'
+                git 'https://github.com/serezha-karpunin/jenkins-example.git'
             }
         }
-
         stage('Test') {
             steps {
                 echo 'Testing...'
+                gradle 'test'
             }
         }
 
-        stage('Deploy') {
+        stage('Build') {
             steps {
-                echo 'Deploying...'
+                echo 'Building...'
+                gradle 'build'
+            }
+        }
+
+        stage('Check') {
+            steps {
+                echo 'Checking...'
+                gradle 'check'
             }
         }
     }
     post {
-        always {
-            mail bcc: '', body: 'World', cc: '', from: '', replyTo: '', subject: 'Hello', to: 'itdepends@yandex.ru'
+        failure {
+            mail bcc: '', body: 'something went wrong', cc: '', from: '', replyTo: '', subject: 'CI failed', to: 'itdepends@yandex.ru'
         }
     }
 }
