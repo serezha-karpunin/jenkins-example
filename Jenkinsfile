@@ -18,9 +18,4 @@ pipeline {
             echo 'Deploying...'
         }
     }
-    post {
-        always {
-            mail to: itdepends@yandex.ru, subject: 'The Pipeline finished'
-        }
-    }
 }
